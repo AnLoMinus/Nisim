@@ -82,6 +82,21 @@ a {
   margin-inline: auto;
 }
 
+/* פוקוס נגיש וברור לרכיבים אינטראקטיביים */
+:where(
+    a,
+    button,
+    [role="button"],
+    input,
+    .btn,
+    .nav-toggle,
+    .theme-toggle,
+    .contact-card
+  ):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .skip-link {
   position: absolute;
   inset-inline-start: 1rem;
@@ -232,6 +247,13 @@ a {
   color: var(--muted);
   margin: 0 0 1rem;
   font-size: 1.1rem;
+}
+
+/* הגבלת רוחב שורות לשיפור קריאות */
+.about p,
+.testimonials .quote p,
+.faq p {
+  max-width: 65ch;
 }
 .badges {
   display: flex;
@@ -439,6 +461,28 @@ section {
   background: #0b1220;
   color: var(--text);
 }
+.contact-form input[aria-invalid="true"] {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+.contact-form .error {
+  color: #fecaca;
+  font-size: 0.85rem;
+  min-height: 1.1em;
+  margin: 0;
+}
+[data-theme="light"] .contact-form .error {
+  color: #b91c1c;
+}
+.form-success {
+  color: #22c55e;
+  font-weight: 700;
+  margin: 0.2rem 0 0;
+  min-height: 1.2em;
+}
+[data-theme="light"] .form-success {
+  color: #166534;
+}
 .form-note {
   color: var(--muted);
   font-size: 0.9rem;
@@ -464,6 +508,16 @@ section {
 .faq p {
   color: var(--muted);
   margin: 0.5rem 0 0;
+}
+
+/* כיבוד העדפת משתמש להפחתת תנועה */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* כפתורי ריחוף */

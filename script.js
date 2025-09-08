@@ -45,7 +45,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// אימות טופס בסיסי
+// אימות טופס בסיסי + הודעות אינליין
 const form = document.querySelector(".contact-form");
 if (form) {
   form.addEventListener("submit", (e) => {
@@ -54,16 +54,34 @@ if (form) {
     const name = String(formData.get("name") || "").trim();
     const phone = String(formData.get("phone") || "").trim();
     const phoneOk = /^0\d{1}-?\d{7}|^0\d{8,9}$/.test(phone);
+    const nameInput = form.querySelector('input[name="name"]');
+    const phoneInput = form.querySelector('input[name="phone"]');
+    const nameErr = form.querySelector('[data-error="name"]');
+    const phoneErr = form.querySelector('[data-error="phone"]');
+    const successMsg = form.querySelector(".form-success");
+
+    // איפוס הודעות
+    nameErr && (nameErr.textContent = "");
+    phoneErr && (phoneErr.textContent = "");
+    successMsg && (successMsg.textContent = "");
+    nameInput?.setAttribute("aria-invalid", "false");
+    phoneInput?.setAttribute("aria-invalid", "false");
+
+    let hasError = false;
     if (!name) {
-      alert("נא להזין שם מלא");
-      return;
+      if (nameErr) nameErr.textContent = "נא להזין שם מלא.";
+      nameInput?.setAttribute("aria-invalid", "true");
+      hasError = true;
     }
     if (!phoneOk) {
-      alert("נא להזין טלפון תקין");
-      return;
+      if (phoneErr) phoneErr.textContent = "נא להזין טלפון תקין בפורמט ישראלי.";
+      phoneInput?.setAttribute("aria-invalid", "true");
+      hasError = true;
     }
+    if (hasError) return;
+
     // ניתן להחליף בשליחה ל-API/Email service
-    alert("תודה! נחזור אליכם בהקדם.");
+    successMsg && (successMsg.textContent = "תודה! נחזור אליכם בהקדם.");
     form.reset();
   });
 }
